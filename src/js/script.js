@@ -8,9 +8,9 @@ window.onload = function() {
   let translate = "translateX(-50%)";
   let oldSelect = 0;
   let select = 0;
-  let x = 0;
-  let oldX = 0;
-  let mouseDown = false;
+  // let x = 0;
+  // let oldX = 0;
+  // let mouseDown = false;
 
   for(let i = 0; i < 16 * 8 - 7; i++) {
     const $box = document.createElement("div");
@@ -28,8 +28,9 @@ window.onload = function() {
   selectColor(0);
 
   document.addEventListener("mousewheel", e => {
-    if(e.wheelDelta < 0 && select === oldSelect) select++;
-    if(e.wheelDelta > 0 && select === oldSelect) select--;
+    if(select !== oldSelect) return false;
+    if(e.wheelDelta < 0) select++;
+    if(e.wheelDelta > 0) select--;
     if(select < 0) select = $color.length - 1;
     if(select > $color.length - 1) select = 0;
     setTimeout(e => {oldSelect = select}, 50);
@@ -38,10 +39,35 @@ window.onload = function() {
 
   document.addEventListener("click", e => {
     if(!hasClass(e.target, "box")) return false;
+    if(select !== oldSelect) return false;
     select = getIdx(e.target)
-    selectColor(select);
     setTimeout(e => {oldSelect = select}, 500);
+    selectColor(select);
   })
+
+  // document.addEventListener("mousedown", e => {
+  //   x = e.pageX;
+  //   oldX = x;
+  //   mouseDown = true;
+  // })
+
+  // document.addEventListener("mousemove", e => {
+  //   if(mouseDown) {
+  //     if(select !== oldSelect) return false;
+  //     x = e.pageX;
+  //     if(x < oldX) select++;
+  //     if(x > oldX) select--;
+  //     if(select < 0) select = $color.length - 1;
+  //     if(select > $color.length - 1) select = 0;
+  //     setTimeout(e => {oldSelect = select}, 100);
+  //     selectColor(select);
+  //     oldX = x;
+  //   }
+  // })
+
+  // document.addEventListener("mouseup", e => {
+  //   mouseDown = false;
+  // })
 
   function selectColor(i) {
     let zIndex = 100;
@@ -83,24 +109,6 @@ window.onload = function() {
       i.style.transform = `rotate(90deg) ${translate}`;
       i.style.transition = "";
     })
-    // if(i + 20 < $color.length) {
-    //   $color[i + 20].style.zIndex = 0;
-    //   $color[i + 20].style.transform = `rotate(90deg) ${translate}`;
-    //   $color[i + 20].style.transition = "";
-    // }else {
-    //   $color[i + 20 - $color.length].style.zIndex = 0;
-    //   $color[i + 20 - $color.length].style.transform = `rotate(90deg) ${translate}`;
-    //   $color[i + 20 - $color.length].style.transition = "";
-    // }
-    // if(i - 20 > -1) {
-    //   $color[i - 20].style.zIndex = 0;
-    //   $color[i - 20].style.transform = `rotate(-90deg) ${translate}`;
-    //   $color[i - 20].style.transition = "";
-    // }else {
-    //   $color[i - 20 + $color.length].style.zIndex = 0;
-    //   $color[i - 20 + $color.length].style.transform = `rotate(-90deg) ${translate}`;
-    //   $color[i - 20 + $color.length].style.transition = "";
-    // }
   }
 
   function nextHex() {
