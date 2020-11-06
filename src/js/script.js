@@ -79,27 +79,30 @@ window.onload = function() {
     $color[i].style.transform = `rotate(0deg) ${translate}`;
     $color[i].style.transition = "1s";
     $color[i].classList.add("select");
-    for(let l = 1; l < 20; l++) {
+    for(let l = 1; l < 25; l++) {
+      let transition
+      if(l < 20) transition = "1s";
+      else transition = "";
       if(i + l < $color.length) {
         $color[i + l].style.zIndex = zIndex - (l * 5);
         $color[i + l].style.transform = `rotate(${10 * l}deg) ${translate}`;
-        $color[i + l].style.transition = "1s";
+        $color[i + l].style.transition = transition;
         $color[i + l].classList.add("view");
       }else {
         $color[i + l - $color.length].style.zIndex = zIndex - (l * 5);
         $color[i + l - $color.length].style.transform = `rotate(${10 * l}deg) ${translate}`;
-        $color[i + l - $color.length].style.transition = "1s";
+        $color[i + l - $color.length].style.transition = transition;
         $color[i + l - $color.length].classList.add("view");
       }
       if(i - l > -1) {
         $color[i - l].style.zIndex = zIndex - (l * 5);
         $color[i - l].style.transform = `rotate(${-10 * l}deg) ${translate}`;
-        $color[i - l].style.transition = "1s";
+        $color[i - l].style.transition = transition;
         $color[i - l].classList.add("view");
       }else {
         $color[i - l + $color.length].style.zIndex = zIndex - (l * 5);
         $color[i - l + $color.length].style.transform = `rotate(${-10 * l}deg) ${translate}`;
-        $color[i - l + $color.length].style.transition = "1s";
+        $color[i - l + $color.length].style.transition = transition;
         $color[i - l + $color.length].classList.add("view");
       }
     }
